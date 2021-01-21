@@ -1,6 +1,7 @@
 //Import NPM Packages
 const express = require('express');
 const fs = require('fs');
+const { Server } = require('http');
 
 //Import Config
 const config = require('./config.js');
@@ -9,11 +10,28 @@ const config = require('./config.js');
 const app = express();
 const port = config.port;
 
+//Init Websocket
+const wsport = config.WSport;
+
+const wserver = require('http').createServer();
+const io = require('socket.io')(wserver);
+
+wserver.listen(wsport, function() {
+    console.log("[INFO]\tWebsocket server started on " + wsport + ".");
+})
+
+io.on('connection', socket => {
+    console.log('[INFO]\tNew WS client connected.')
+})
+
+
+
 //Get Auth Info 
 const keys = config.keys;
 
 //Function to save data to .json file
 const saveData = function(data) {
+    io.emit('update', data);
     data = JSON.stringify(data, null, 2);
     fs.writeFileSync('./data/data.json', data);
 };
@@ -37,6 +55,13 @@ app.post('/update/:auth', (req, res) => {
         return res.sendStatus(403);
     }
 });
+
+app.get('/data', (req, res) => {
+    res.type('json');
+    res.send(fs.readFileSync('./data/data.json'));
+});
+
+app.use(express.static('public'));
 
 app.listen(port);
 console.log("[INFO]\tInfo Middleman service has been started on port " + port + ".");
