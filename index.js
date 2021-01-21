@@ -18,6 +18,7 @@ const saveData = function(data) {
     fs.writeFileSync('./data/data.json', data);
 };
 
+//Webserver
 app.use(express.json());
 app.post('/update/:auth', (req, res) => {
     let auth = req.params.auth;
