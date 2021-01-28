@@ -1,6 +1,6 @@
 import { LitElement, html } from 'https://unpkg.com/lit-element@2.4.0/lit-element.js?module';
 
-const http = new XMLHttpRequest();
+//const http = new XMLHttpRequest();
 
 class CasterInfo extends LitElement {
 
@@ -12,7 +12,7 @@ class CasterInfo extends LitElement {
 
     constructor() {
         super();
-        http.open("GET", 'http://localhost:9091/data');
+        /*http.open("GET", 'http://localhost:9091/data');
         http.send();
 
         http.onreadystatechange= (e) => {
@@ -22,14 +22,20 @@ class CasterInfo extends LitElement {
             catch(e) {
                 return;
             }
+        }*/
+
+        fetch('http://localhost:9091/data')
+            .then(res => res.json())
+            .then(data => this.data = data);
+
+        const handleSocketMessage = (e) => {
+            console.log(JSON.parse(e.data));
+            this.data = JSON.parse(e.data);
+            this.requestUpdate();
         }
 
         const socket = new WebSocket('ws://localhost:9092');
-        socket.onmessage = function(event) {
-            console.log(JSON.parse(event.data));
-            this.data = JSON.parse(event.data);
-            this.requestUpdate();
-        };
+        socket.onmessage = handleSocketMessage.bind(this);
     }
 
     async firstUpdated(props) {
