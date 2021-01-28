@@ -32,8 +32,19 @@ class CasterInfo extends LitElement {
     render(){
         return html`
             <link rel="stylesheet" href="http://localhost:9091/css/dashboard.css">
-            TEST
-            ${this.data?.test}
+            <div class="body">
+                <div class="scoreboard">
+                    <div class="score-team-container">
+                        <div class="score-color" style="background-color: ${this.data?.currentMatch?.currentColors?.colorA}"></div>
+                        <div class="teamName">${this.data?.currentMatch?.teamA?.displayName}  |  ${this.data?.currentMatch?.scoreA}</div>
+                    </div>
+                    <div class="score-team-container">
+                        <div class="score-color" style="background-color: ${this.data?.currentMatch?.currentColors?.colorB}"></div>
+                        <div class="teamName">${this.data?.currentMatch?.teamB?.displayName}  |  ${this.data?.currentMatch?.scoreB}</div>
+                    </div>
+                    <div class="score-footer">${this.data?.currentMatch?.roundName} | ${this.data?.currentMatch?.styleOfPlay}</div>
+                </div>
+            </div>
         `
     }
 }

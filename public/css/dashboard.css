@@ -1,0 +1,27 @@
+.body {
+    font-family: sans-serif;
+}
+
+.scoreboard {
+    display: inline-block;
+    background: #212121;
+    padding: 10px;
+    color: white;
+    font-size: 30px;
+}
+
+.score-team-container {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+.score-color {
+    height: 30px;
+    width: 10px;
+    margin-right: 5px;
+}
+
+.score-footer {
+    margin-top: 10px;
+}
