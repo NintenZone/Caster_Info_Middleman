@@ -1,7 +1,6 @@
 //Import NPM Packages
 const express = require('express');
 const fs = require('fs');
-const { Server } = require('http');
 
 //Import Config
 const config = require('./config.js');
@@ -10,30 +9,38 @@ const config = require('./config.js');
 const app = express();
 const port = config.port;
 
+const http = require('http').Server(app);
+
 //Init Websocket
 const wsport = config.WSport;
 
-const wserver = require('http').createServer();
-const io = require('socket.io')(wserver);
+const WebSocket = require('ws');
 
-wserver.listen(wsport, function() {
-    console.log("[INFO]\tWebsocket server started on " + wsport + ".");
-})
-
-io.on('connection', socket => {
-    console.log('[INFO]\tNew WS client connected.')
-})
+const wss = new WebSocket.Server({port: wsport});
 
 
+console.log('[INFO]\tWebsocket has opened on port ' + wsport + '.');
+
+wss.on('connection', function connection(ws) {
+    console.log("[INFO]\tClient connected.");
+    ws.on('close', () => {
+        console.log('[INFO]\tClient disconnected.')
+    });
+});
 
 //Get Auth Info 
 const keys = config.keys;
 
 //Function to save data to .json file
 const saveData = function(data) {
-    io.emit('update', data);
     data = JSON.stringify(data, null, 2);
     fs.writeFileSync('./data/data.json', data);
+
+    wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(data);
+        }
+    })
 };
 
 //Webserver
@@ -63,5 +70,6 @@ app.get('/data', (req, res) => {
 
 app.use(express.static('public'));
 
-app.listen(port);
-console.log("[INFO]\tInfo Middleman service has been started on port " + port + ".");
+http.listen(port, () => {
+    console.log("[INFO]\tInfo Middleman service has been started on port " + port + ".");
+});

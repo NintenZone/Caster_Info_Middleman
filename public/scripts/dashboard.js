@@ -1,4 +1,4 @@
-import {LitElement, html} from 'https://unpkg.com/@polymer/lit-element@latest/lit-element.js?module';
+import { LitElement, html } from 'lit-element';
 
 const http = new XMLHttpRequest();
 
@@ -16,24 +16,31 @@ class CasterInfo extends LitElement {
         http.send();
 
         http.onreadystatechange= (e) => {
-            this.data = JSON.parse(http.responseText);
+            try {
+                this.data = JSON.parse(http.responseText);
+            }
+            catch(e) {
+                return;
+            }
         }
+
+        const socket = new WebSocket('ws://localhost:9092');
+        socket.onmessage = function(event) {
+            console.log(JSON.parse(event.data));
+            this.data = JSON.parse(event.data);
+            this.requestUpdate();
+        };
     }
 
     async firstUpdated(props) {
-        const connection = new WebSocket("ws://localhost:9092");
-        connection.onmessage = function(event) {
-            this.data = event.data;
-            console.log(event.data);
-        }
-        this.requestUpdate();
+
     }
     
     render(){
         return html`
             <link rel="stylesheet" href="http://localhost:9091/css/dashboard.css">
             TEST
-            ${this.data?.casters[0]?.displayName}
+            ${this.data?.test}
         `
     }
 }
