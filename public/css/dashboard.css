@@ -1,5 +1,6 @@
 .body {
     font-family: sans-serif;
+    display: flex;
 }
 
 .scoreboard {
@@ -8,6 +9,7 @@
     padding: 10px;
     color: white;
     font-size: 30px;
+    height: fit-content;
 }
 
 .score-team-container {
@@ -22,6 +24,40 @@
     margin-right: 5px;
 }
 
+.white-sep {
+    height: 5px;
+    background-color: white;
+}
+
 .score-footer {
     margin-top: 10px;
+}
+
+
+.maplist-container {
+    padding: 10px;
+    color: white;
+    font-size: 20px;
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: #212121;
+    height: fit-content;
+}
+
+.maplist-container .white-sep {
+    margin: 5px 0;
+}
+
+.maplist-header {
+    text-align: center;
+}
+
+.map-container {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.map-mode {
+    margin-right: 15px;
 }

@@ -42,9 +42,56 @@ class CasterInfo extends LitElement {
                         <div class="score-color" style="background-color: ${this.data?.currentMatch?.currentColors?.colorB}"></div>
                         <div class="teamName">${this.data?.currentMatch?.teamB?.displayName}  |  ${this.data?.currentMatch?.scoreB}</div>
                     </div>
+                    <div class="white-sep"></div>
                     <div class="score-footer">${this.data?.currentMatch?.roundName} | ${this.data?.currentMatch?.styleOfPlay}</div>
                 </div>
+
+                <div class="maplist-container">
+                    <div class="maplist-header">
+                        <div class="header-text">Maplist</div>
+                    </div>
+                    <div class="white-sep"></div>
+                    <div class="maplist-body">
+                        ${this.data?.currentMatch?.games?.map(
+                            (game) =>
+                            this.getMapDiv(game)
+                        )}
+                    </div>
+                </div>
             </div>
+        `
+    }
+
+    getMapDiv(game) {
+        let abbr = "??";
+
+        if (game.mode.toLowerCase() === "splat zones") {
+            abbr = "SZ";
+        }
+        else if (game.mode.toLowerCase() === "tower control") {
+            abbr = "TC";
+        }
+        else if (game.mode.toLowerCase() === "rainmaker") {
+            abbr = "RM";
+        }
+        else if (game.mode.toLowerCase() === "clam blitz") {
+            abbr = "CB";
+        }
+        else if (game.mode.toLowerCase() === "counterpick") {
+            abbr = "CP";
+        }
+        else if (game.mode.toLowerCase() === "turf war") {
+            abbr = "TW";
+        }
+        else if (game.mode.toLowerCase() === "random") {
+            abbr = "RD";
+        }
+
+        return html`
+        <div class="map-container">
+            <div class="map-mode">${abbr}</div>
+            <div class="map-name">${game.map}</div>
+        </div>
         `
     }
 }
