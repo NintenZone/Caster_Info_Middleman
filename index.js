@@ -31,9 +31,19 @@ wss.on('connection', function connection(ws) {
 //Get Auth Info 
 const keys = config.keys;
 
+//Import Sendou.ink
+const sendou = require('./sendou.js');
+
 //Function to save data to .json file
-const saveData = function(data) {
+const saveData = async (data) => {
+    if (data && data.currentMatch && data.currentMatch.teamA && data.currentMatch.teamB) {
+        data['sink'] = {};
+        data['sink']['teamA'] = await sendou.getFullDataFromTeam(data.currentMatch.teamA);
+        data['sink']['teamB'] = await sendou.getFullDataFromTeam(data.currentMatch.teamB);
+    }
+    
     data = JSON.stringify(data, null, 2);
+    
     fs.writeFileSync('./data/data.json', data);
 
     wss.clients.forEach(function each(client) {
