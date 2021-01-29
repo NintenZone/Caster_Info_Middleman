@@ -1,8 +1,8 @@
 const axios = require('axios');
 
 let getPlayerData = async (playerID) => {
-    return new Promise((resolve, reject) => {
-        let res = axios.get("https://sendou.ink/_next/data/IzbD25TuhzFeL6ZQoMTpX/t.json").catch(e => {
+    return new Promise(async (resolve, reject) => {
+        let res = await axios.get(`https://sendou.ink/_next/data/IzbD25TuhzFeL6ZQoMTpX/u/${playerID}.json`).catch(e => {
             return reject(e);
         })
 
@@ -16,9 +16,9 @@ let getPlayerData = async (playerID) => {
 }
 
 exports.getFullDataFromTeam = async (team) => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         let data = {};
-        let res = axios.get("https://sendou.ink/_next/data/IzbD25TuhzFeL6ZQoMTpX/t.json").catch(null);
+        let res = await axios.get("https://sendou.ink/_next/data/IzbD25TuhzFeL6ZQoMTpX/t.json").catch(null);
         
         if (res && res.data) res = res.data;
         else return data;
@@ -46,18 +46,20 @@ exports.getFullDataFromTeam = async (team) => {
                 let players = [];
                 let promises = [];
                 data.teamData.roster.forEach((player) => {
-                    promises.push(getPlayerData(player));
+                    promises.push(getPlayerData(player.id));
                 })
 
                 await Promise.all(promises).then((values) => {
                     values.forEach((pres) => {
                         if (pres && !pres.notFound) {
-                            players.push(pres);
+                            players.push(pres.pageProps.user);
                         }
                     })
                 }).catch(e => {
                     return reject(e);
                 })
+
+                data['players'] = players;
             }
         }
 
