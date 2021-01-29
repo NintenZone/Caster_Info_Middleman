@@ -11,7 +11,7 @@ class CasterInfo extends LitElement {
     constructor() {
         super();
 
-        fetch('http://localhost:9091/data')
+        fetch('http://bot.ninten.zone:9091/data')
             .then(res => res.json())
             .then(data => this.data = data);
 
@@ -21,7 +21,7 @@ class CasterInfo extends LitElement {
             this.requestUpdate();
         }
 
-        const socket = new WebSocket('ws://localhost:9092');
+        const socket = new WebSocket('ws://bot.ninten.zone:9092');
         socket.onmessage = handleSocketMessage.bind(this);
     }
 
@@ -31,7 +31,7 @@ class CasterInfo extends LitElement {
     
     render(){
         return html`
-            <link rel="stylesheet" href="http://localhost:9091/css/dashboard.css">
+            <link rel="stylesheet" href="http://bot.ninten.zone:9091/css/dashboard.css">
             <div class="body">
                 <div class="caster-container">
                     ${this.data?.casters?.map(
@@ -173,7 +173,7 @@ class CasterInfo extends LitElement {
         return html`
             <div class="sendou-player">
                 <div class="sendou-player-main">
-                    <div class="sendou-flag"><img src="http://localhost:9091/img/flags/${(player?.profile?.country) ? player?.profile?.country?.toUpperCase() : "_unknown"}.png"></div>
+                    <div class="sendou-flag"><img src="http://bot.ninten.zone:9091/img/flags/${(player?.profile?.country) ? player?.profile?.country?.toUpperCase() : "_unknown"}.png"></div>
                     <div class="sendou-player-name">${player.username}</div>
                 </div>
                 
