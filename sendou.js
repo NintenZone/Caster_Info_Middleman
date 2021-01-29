@@ -52,6 +52,9 @@ exports.getFullDataFromTeam = async (team) => {
                 await Promise.all(promises).then((values) => {
                     values.forEach((pres) => {
                         if (pres && !pres.notFound) {
+                            let pdata = pres.pageProps.user;
+                            if (pres.pageProps.peakXPowers) pdata.peakXPowers = pres.pageProps.peakXPowers;
+                            if (pres.pageProps.peakLeaguePowers) pdata.peakLeaguePowers = pres.pageProps.peakLeaguePowers;
                             players.push(pres.pageProps.user);
                         }
                     })

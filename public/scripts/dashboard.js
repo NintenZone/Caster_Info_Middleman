@@ -33,6 +33,13 @@ class CasterInfo extends LitElement {
         return html`
             <link rel="stylesheet" href="http://localhost:9091/css/dashboard.css">
             <div class="body">
+                <div class="caster-container">
+                    ${this.data?.casters?.map(
+                        (caster) => 
+                        this.getCasterDivs(caster)
+                    )}
+                </div>
+
                 <div class="scoreboard">
                     <div class="score-team-container">
                         <div class="score-color" style="background-color: ${this.data?.currentMatch?.currentColors?.colorA}"></div>
@@ -58,6 +65,24 @@ class CasterInfo extends LitElement {
                         )}
                     </div>
                 </div>
+
+                <div class="roster-container">
+                    ${this.getRosterDivs(this.data?.currentMatch?.teamA)}
+                    ${this.getRosterDivs(this.data?.currentMatch?.teamB)}
+                </div>
+
+                <div class="sendou-module">
+                    ${this.getSendou(this.data?.sink?.teamA)}
+                    ${this.getSendou(this.data?.sink?.teamB)}
+                </div>
+            </div>
+        `
+    }
+
+    getCasterDivs(caster) {
+        return html`
+            <div class="caster">
+                ${caster?.displayName} (${caster?.details?.pronouns?.detailText})
             </div>
         `
     }
@@ -92,6 +117,74 @@ class CasterInfo extends LitElement {
             <div class="map-mode">${abbr}</div>
             <div class="map-name">${game.map}</div>
         </div>
+        `
+    }
+
+    getRosterDivs(team) {
+        return html`
+            <div class="roster-team-container">
+                <div class="header">${team?.displayName}</div>
+                <div class="white-sep"></div>
+                ${team?.players?.map(
+                    (player) => 
+                    this.getRosterPlayers(player)
+                )}
+            </div>
+        `
+    }
+
+    getRosterPlayers(player) {
+        return html`
+            <div class="roster-player">
+                ${player?.name}
+            </div>
+        `
+    }
+
+    getSendou(team) {
+        return html`
+            <div class="sendou-team">
+                <div class="sendou-header">${team?.teamData?.name}</div>
+                <div class="white-sep"></div>
+                ${team?.players?.map(
+                    (player) => 
+                    this.getSendouPlayer(player)
+                )}
+            </div>
+        `
+    }
+
+    getSendouPlayer(player) {
+        let peakX = [];
+        let peakLeague = [];
+
+        if (player.peakXPowers) {
+            for (const [key, value] of Object.entries(player.peakXPowers)) {
+                peakX.push(`${key}: ${value}`)
+            }
+        }
+
+        if (player.peakLeaguePowers) {
+            for (const [key, value] of Object.entries(player.peakLeaguePowers)) {
+                peakLeague.push(`${key}: ${value}`)
+            }
+        }
+
+        return html`
+            <div class="sendou-player">
+                <div class="sendou-player-main">
+                    <div class="sendou-flag"><img src="http://localhost:9091/img/flags/${(player?.profile?.country) ? player?.profile?.country?.toUpperCase() : "_unknown"}.png"></div>
+                    <div class="sendou-player-name">${player.username}</div>
+                </div>
+                
+                <div class="sendou-player-weapons">${player?.profile?.weaponPool?.join(" | ")}</div>
+                <div class="peak-x">
+                    ${peakX.join(' | ')}
+                </div>
+                <div class="peak-league">
+                    ${peakLeague.join(' | ')}
+                </div>
+            </div>        
         `
     }
 }

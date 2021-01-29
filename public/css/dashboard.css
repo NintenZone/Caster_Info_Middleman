@@ -1,6 +1,19 @@
 .body {
     font-family: sans-serif;
     display: flex;
+    flex-wrap: wrap;
+}
+
+.caster-container {
+    display: inline-block;
+    background-color: #212121;
+    color: white;
+    font-size: 25px;
+    height: fit-content;
+    width: fit-content;
+    padding: 15px;
+    margin-right: 15px;
+    margin-bottom: 15px;
 }
 
 .scoreboard {
@@ -10,6 +23,7 @@
     color: white;
     font-size: 30px;
     height: fit-content;
+    margin-bottom: 15px;
 }
 
 .score-team-container {
@@ -43,6 +57,8 @@
     flex-direction: column;
     background-color: #212121;
     height: fit-content;
+    margin-bottom: 15px;
+    margin-right: 15px;
 }
 
 .maplist-container .white-sep {
@@ -60,4 +76,54 @@
 
 .map-mode {
     margin-right: 15px;
+}
+
+.roster-container {
+    background-color: #212121;
+    color: white;
+    font-size: 25px;
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    height: fit-content;
+    margin-bottom: 15px;
+}
+
+.roster-team-container{
+    margin: 15px;
+
+}
+
+.sendou-module {
+    background-color: #031e3e;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+    width: fit-content;
+}
+
+.sendou-team {
+    margin: 15px;
+}
+
+.sendou-header {
+    text-align: center;
+    font-size: 30px;
+}
+
+.sendou-player-main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.sendou-player-name {
+    margin-left: 5px;
+    font-size: 30px;
+}
+
+.sendou-player-weapons, .peak-x, .peak-league {
+    margin: 10px auto;
 }
