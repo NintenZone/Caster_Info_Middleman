@@ -2,7 +2,7 @@ const axios = require('axios');
 
 let getPlayerData = async (playerID) => {
     return new Promise(async (resolve, reject) => {
-        let res = await axios.get(`https://sendou.ink/_next/data/dwRbm-QCstSiXBvB-H46u/u/${playerID}.json`).catch(e => {
+        let res = await axios.get(`https://sendou.ink/_next/data/xeb4XWE-vebTgrhd2ry-9/u/${playerID}.json`).catch(e => {
             return reject(e);
         })
 
@@ -18,7 +18,7 @@ let getPlayerData = async (playerID) => {
 exports.getFullDataFromTeam = async (team) => {
     return new Promise(async (resolve, reject) => {
         let data = {};
-        let res = await axios.get("https://sendou.ink/_next/data/dwRbm-QCstSiXBvB-H46u/t.json").catch(null);
+        let res = await axios.get("https://sendou.ink/_next/data/xeb4XWE-vebTgrhd2ry-9/t.json").catch(null);
         
         if (res && res.data) res = res.data;
         else return data;
